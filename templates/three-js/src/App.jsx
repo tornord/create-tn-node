@@ -39,13 +39,8 @@ export function App() {
   const ref = useRef(null);
 
   useEffect(() => {
-    /**
-     * Base
-     */
     // Debug
-    const gui = new dat.GUI({
-      width: 400,
-    });
+    const gui = new dat.GUI();
 
     // Canvas
     const canvas = ref.current;
@@ -53,9 +48,6 @@ export function App() {
     // Scene
     const scene = new THREE.Scene();
 
-    /**
-     * Loaders
-     */
     // Texture loader
     const textureLoader = new THREE.TextureLoader();
 
@@ -67,63 +59,42 @@ export function App() {
     const gltfLoader = new GLTFLoader();
     gltfLoader.setDRACOLoader(dracoLoader);
 
-    /**
-     * Textures
-     */
-    const bakedTexture = textureLoader.load("baked.jpg");
-    bakedTexture.flipY = false;
-    bakedTexture.encoding = THREE.sRGBEncoding;
+    // Light
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x404040, 1.5);
+    hemiLight.position.set(0, 1, 0);
+    scene.add(hemiLight);
 
-    /**
-     * Materials
-     */
-    // Baked material
-    const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture });
+    // Textures & material
+    const useColorMap = false;
+    let colorsMaterial = null;
+    if (useColorMap) {
+      const colorMapTexture = textureLoader.load("colormap.jpg");
+      colorMapTexture.flipY = false;
+      colorMapTexture.encoding = THREE.sRGBEncoding;
+      colorsMaterial = new THREE.MeshBasicMaterial({ map: colorMapTexture });
+    }
 
-    // Pole light material
-    const poleLightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 });
+    // Model
+    gltfLoader.load("model.glb", (gltf) => {
+      const model = gltf.scene;
 
-    // Portal light material
-    const portalLightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      if (colorsMaterial) {
+        model.traverse((child) => {
+          child.material = colorsMaterial;
+        });
+      }
 
-    gui.addColor(poleLightMaterial, "color");
-
-    /**
-     * Model
-     */
-    gltfLoader.load("portal.glb", (gltf) => {
-      gltf.scene.traverse((child) => {
-        child.material = bakedMaterial;
-      });
-      scene.add(gltf.scene);
-
-      // Get each object
-      const portalLightMesh = gltf.scene.children.find((child) => child.name === "portalLight");
-      const poleLightAMesh = gltf.scene.children.find((child) => child.name === "poleLightA");
-      const poleLightBMesh = gltf.scene.children.find((child) => child.name === "poleLightB");
-
-      // Apply materials
-      portalLightMesh.material = portalLightMaterial;
-      poleLightAMesh.material = poleLightMaterial;
-      poleLightBMesh.material = poleLightMaterial;
+      scene.add(model);
     });
 
-    /**
-     * Sizes
-     */
-    const sizes = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
+    // Window sizes
+    const sizes = { width: window.innerWidth, height: window.innerHeight };
 
-    /**
-     * Camera
-     */
     // Base camera
     const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 0.1, 100);
     camera.position.x = 4;
     camera.position.y = 2;
-    camera.position.z = 4;
+    camera.position.z = -4;
     scene.add(camera);
 
     gui.add(camera.position, "x", 2, 6, 0.01);
@@ -132,13 +103,8 @@ export function App() {
     const controls = new OrbitControls(camera, canvas);
     controls.enableDamping = true;
 
-    /**
-     * Renderer
-     */
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvas,
-      antialias: true,
-    });
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.outputEncoding = THREE.sRGBEncoding;
@@ -157,9 +123,7 @@ export function App() {
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     });
 
-    /**
-     * Animate
-     */
+    // Animate
     const clock = new THREE.Clock();
 
     const tick = () => {

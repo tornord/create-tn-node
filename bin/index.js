@@ -37,6 +37,12 @@ function copyTemplate(templateName, projectName) {
   copyFolder(".", templatesFolder, destFolder, false);
   copyFolder(".", srcFolder, destFolder, false);
   copyFolder("src", srcFolder, destFolder, false);
+  if (fs.existsSync(join(srcFolder, "static"))) {
+    copyFolder("static", srcFolder, destFolder, false);
+    if (fs.existsSync(join(srcFolder, "static", "draco"))) {
+      copyFolder("draco", join(srcFolder, "static"), join(destFolder, "static"), false);
+    }
+  }
   copyFolder(".vscode", srcFolder, destFolder, false);
   fs.writeFileSync(join(destFolder, ".env"), "Secrets here\n", "utf-8");
 }
