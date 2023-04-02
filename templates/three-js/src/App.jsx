@@ -8,30 +8,7 @@ import styled from "@emotion/styled";
 
 const StyledApp = styled.div(
   () => `
-    width: 100%;
-    height: 600px;
-    
-    svg {
-      background: #eee;
 
-      @keyframes draw {
-        from {
-          stroke-dashoffset: 1;
-        }
-        to {
-          stroke-dashoffset: 0;
-        }
-      }
-
-      .heart {
-        stroke-dasharray: 1;
-        stroke-dashoffset: 1;
-        stroke: red;
-        stroke-width: 5;
-        fill: none;
-        animation: draw 5s linear alternate infinite;
-      }
-    }
   `
 );
 
@@ -39,6 +16,8 @@ export function App() {
   const ref = useRef(null);
 
   useEffect(() => {
+    const params = { backgroundColor: 0xb7bad7 };
+
     // Debug
     const gui = new dat.GUI();
 
@@ -47,6 +26,12 @@ export function App() {
 
     // Scene
     const scene = new THREE.Scene();
+
+    // Scene background
+    scene.background = new THREE.Color(params.backgroundColor);
+    gui.addColor(params, "backgroundColor").onChange(() => {
+      scene.background = new THREE.Color(params.backgroundColor);
+    });
 
     // Texture loader
     const textureLoader = new THREE.TextureLoader();
@@ -134,6 +119,7 @@ export function App() {
 
       // Render
       renderer.render(scene, camera);
+      renderer.setClearColor(0x000000, 0.0);
 
       // Call tick again on the next frame
       window.requestAnimationFrame(tick);

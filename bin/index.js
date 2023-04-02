@@ -45,6 +45,10 @@ function copyTemplate(templateName, projectName) {
   }
   copyFolder(".vscode", srcFolder, destFolder, false);
   fs.writeFileSync(join(destFolder, ".env"), "Secrets here\n", "utf-8");
+
+  const packageJson = JSON.parse(fs.readFileSync(join(destFolder, "package.json"), "utf-8"));
+  packageJson.name = projectName;
+  fs.writeFileSync(join(destFolder, "package.json"), JSON.stringify(packageJson), "utf-8");
 }
 
 async function main() {
