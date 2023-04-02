@@ -1,14 +1,22 @@
 import * as dat from "lil-gui";
 import * as THREE from "three";
 import React, { useEffect, useRef } from "react";
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import styled from "@emotion/styled";
 
 const StyledApp = styled.div(
   () => `
+    .webgl
+    {
+        position: fixed;
+        top: 0;
+        left: 0;
+        outline: none;
 
+        // background: #11e8bb; /* Old browsers */
+        background: linear-gradient(to bottom, #e3e9ec 0%, #a099a4 100%);
+    }
   `
 );
 
@@ -28,21 +36,16 @@ export function App() {
     const scene = new THREE.Scene();
 
     // Scene background
-    scene.background = new THREE.Color(params.backgroundColor);
-    gui.addColor(params, "backgroundColor").onChange(() => {
-      scene.background = new THREE.Color(params.backgroundColor);
-    });
+    // scene.background = new THREE.Color(params.backgroundColor);
+    // gui.addColor(params, "backgroundColor").onChange(() => {
+    //   scene.background = new THREE.Color(params.backgroundColor);
+    // });
 
     // Texture loader
     const textureLoader = new THREE.TextureLoader();
 
-    // Draco loader
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath("draco/");
-
     // GLTF loader
     const gltfLoader = new GLTFLoader();
-    gltfLoader.setDRACOLoader(dracoLoader);
 
     // Light
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0x404040, 1.5);
