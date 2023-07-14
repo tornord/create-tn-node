@@ -48,7 +48,7 @@ function copyTemplate(templateName, projectName) {
 
   const packageJson = JSON.parse(fs.readFileSync(join(destFolder, "package.json"), "utf-8"));
   packageJson.name = projectName;
-  fs.writeFileSync(join(destFolder, "package.json"), JSON.stringify(packageJson), "utf-8");
+  fs.writeFileSync(join(destFolder, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
 }
 
 async function main() {

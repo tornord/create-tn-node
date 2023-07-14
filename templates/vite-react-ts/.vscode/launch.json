@@ -1,0 +1,42 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test current file",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": ["${file}", "--run", "--test-timeout=120000", "--reporter=dot"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v18.16.1/bin/node",
+      "smartStep": true,
+      "env": { "DEBUG": "" }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run current file",
+      "program": "${workspaceFolder}/node_modules/ts-node/dist/bin-esm.js",
+      "args": ["--experimental-specifier-resolution=node", "${file}"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v18.16.1/bin/node",
+      "smartStep": true,
+      "env": { "DEBUG": "" }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "TS current file",
+      "program": "${file}",
+      "preLaunchTask": "tsc: build - tsconfig.debug.json",
+      "outFiles": ["${workspaceFolder}/out/**/*.js"],
+      "console": "integratedTerminal",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v18.16.1/bin/node",
+    }
+  ]
+}
