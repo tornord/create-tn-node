@@ -1,4 +1,4 @@
-import { scaleLinear } from "./helpers";
+import { scaleLinear } from "./scaleLinear";
 
 test("scaleLinear", () => {
   const s1 = scaleLinear([0, 1], [0, 1]);
@@ -16,14 +16,14 @@ test("scaleLinear", () => {
   const s4 = scaleLinear([10, 0], [100, 300]);
   expect(s4(12.5)).toBe(50);
 
-  const s5 = (scaleLinear() as any).domain([10, 0]).range([100, 300]); // eslint-disable-line
-  expect(s5(5)).toBe(200); // eslint-disable-line
+  const s5 = scaleLinear().domain([10, 0]).range([100, 300]);
+  expect(s5(5)).toBe(200);
 
   const s6 = scaleLinear();
   expect(() => s6(0)).toThrow(TypeError);
 
-  const s7 = (scaleLinear() as any).domain([10, 130]).range([0, 960]); // eslint-disable-line
+  const s7 = scaleLinear().domain([10, 130]).range([0, 960]);
 
-  expect(s7(20)).toBe(80); // eslint-disable-line
-  expect(s7(50)).toBe(320); // eslint-disable-line
+  expect(s7(20)).toBe(80);
+  expect(s7(50)).toBe(320);
 });

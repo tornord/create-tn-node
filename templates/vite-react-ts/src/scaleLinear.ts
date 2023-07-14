@@ -1,17 +1,23 @@
 const { round } = Math;
 export const round2 = (x: number) => round(x * 100) / 100;
 
+type ScaleLinear = {
+  (x: number): number;
+  domain: (xs: number[]) => ScaleLinear;
+  range: (xs: number[]) => ScaleLinear;
+}
+
 /**
  * Replica of d3 scaleLinear
  * https://www.npmjs.com/package/d3-scale
  */
-export function scaleLinear(domain: number[] = [0, 1], range: number[] = [0, 1]): (x: number) => number {
+export function scaleLinear(domain: number[] | null = null, range: number[] | null = null): ScaleLinear {
   const res = (x: number) => {
     const t = (x - res._domain[0]) / (res._domain[1] - res._domain[0]);
     return (1 - t) * res._range[0] + t * res._range[1];
   };
-  res._domain = domain;
-  res._range = range;
+  res._domain = domain as number[];
+  res._range = range as number[];
   res.domain = (xs: number[]) => {
     res._domain = xs.slice();
     return res;
