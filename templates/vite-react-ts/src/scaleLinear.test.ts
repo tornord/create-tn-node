@@ -23,7 +23,6 @@ test("scaleLinear", () => {
   expect(() => s6(0)).toThrow(TypeError);
 
   const s7 = scaleLinear().domain([10, 130]).range([0, 960]);
-
   expect(s7(20)).toBe(80);
   expect(s7(50)).toBe(320);
 });

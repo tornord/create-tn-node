@@ -7,7 +7,6 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:react-hooks/recommended",
   ],
   parser: "@typescript-eslint/parser",
@@ -25,7 +24,6 @@ module.exports = {
   plugins: ["react"],
   ignorePatterns: ["dist/**/*", "out/**/*", "storybook-static/**/*", "public/**/*"],
   rules: {
-    "@typescript-eslint/no-non-null-assertion": "off",
     "arrow-parens": 2,
     "arrow-spacing": 2,
     "brace-style": [2, "1tbs", { allowSingleLine: false }],
