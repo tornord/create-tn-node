@@ -52,24 +52,61 @@ export function App() {
     hemiLight.position.set(0, 1, 0);
     scene.add(hemiLight);
 
+    const spotLight = new THREE.SpotLight(0xffffff, 0.6);
+    spotLight.position.set(0, 10, 0);
+    spotLight.castShadow = true;
+    spotLight.shadow.radius = 5;
+    spotLight.shadow.blurSamples = 25;
+    scene.add(spotLight);
+    // scene.add(new THREE.SpotLightHelper(spotLight, 1));
+
     // Textures & material
     const useColorMap = false;
-    let colorsMaterial = null;
+    let colorsMaterial = new THREE.MeshStandardMaterial({
+      depthTest: true,
+      depthWrite: true,
+      side: THREE.DoubleSide,
+    });
     if (useColorMap) {
       const colorMapTexture = textureLoader.load("colormap.jpg");
       colorMapTexture.flipY = false;
-      colorMapTexture.encoding = THREE.sRGBEncoding;
-      colorsMaterial = new THREE.MeshBasicMaterial({ map: colorMapTexture });
+      colorMapTexture.colorSpace = THREE.SRGBColorSpace;
+      colorsMaterial.map = colorMapTexture;
+    } else {
+      colorsMaterial.color = new THREE.Color(0x00388eb9);
     }
+
+    let mixers = []; // Array of mixers in case of many models
 
     // Model
     gltfLoader.load("model.glb", (gltf) => {
       const model = gltf.scene;
+      const mixer = new THREE.AnimationMixer(model);
+      mixers.push(mixer);
 
       if (colorsMaterial) {
         model.traverse((child) => {
+          if (child.isMesh) {
+            if (child.name === "Ground") {
+              child.receiveShadow = true;
+            } else {
+              child.castShadow = true;
+            }
+          }
           child.material = colorsMaterial;
         });
+      }
+
+      const actions = [];
+      for (let i = 0; i < gltf.animations.length; i++) {
+        const clip = gltf.animations[i];
+        const n = clip.name.toLowerCase();
+        const action = mixer.clipAction(clip);
+        action.setLoop(THREE.LoopRepeat);
+        action.clampWhenFinished = true;
+        action.enable = true;
+        action.play();
+        actions.push(action);
       }
 
       scene.add(model);
@@ -80,12 +117,11 @@ export function App() {
 
     // Base camera
     const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 0.1, 100);
-    camera.position.x = 4;
-    camera.position.y = 2;
-    camera.position.z = -4;
+    camera.position.x = 12;
+    camera.position.y = 6;
+    camera.position.z = -12;
     scene.add(camera);
-
-    gui.add(camera.position, "x", 2, 6, 0.01);
+    gui.add(camera.position, "x", 2, 20, 0.01);
 
     // Controls
     const controls = new OrbitControls(camera, canvas);
@@ -95,7 +131,8 @@ export function App() {
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.shadowMap.enabled = true;
+    renderer.setClearColor(0x000000, 0.0);
 
     window.addEventListener("resize", () => {
       // Update sizes
@@ -113,18 +150,23 @@ export function App() {
 
     // Animate
     const clock = new THREE.Clock();
-
+    let elapsedTimePrev = clock.getElapsedTime();
     const tick = () => {
       const elapsedTime = clock.getElapsedTime(); // eslint-disable-line
 
       // Update controls
       controls.update();
 
+      // Update animation mixers
+      for (const mixer of mixers) {
+        mixer.update(elapsedTime - elapsedTimePrev);
+      }
+
       // Render
       renderer.render(scene, camera);
-      renderer.setClearColor(0x000000, 0.0);
 
       // Call tick again on the next frame
+      elapsedTimePrev = elapsedTime;
       window.requestAnimationFrame(tick);
     };
 
