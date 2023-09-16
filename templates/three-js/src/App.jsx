@@ -24,7 +24,7 @@ export function App() {
   const ref = useRef(null);
 
   useEffect(() => {
-    const params = { backgroundColor: 0xb7bad7 };
+    // const params = { backgroundColor: 0xb7bad7 };
 
     // Debug
     const gui = new dat.GUI();
@@ -62,7 +62,7 @@ export function App() {
 
     // Textures & material
     const useColorMap = false;
-    let colorsMaterial = new THREE.MeshStandardMaterial({
+    const colorsMaterial = new THREE.MeshStandardMaterial({
       depthTest: true,
       depthWrite: true,
       side: THREE.DoubleSide,
@@ -76,7 +76,7 @@ export function App() {
       colorsMaterial.color = new THREE.Color(0x00388eb9);
     }
 
-    let mixers = []; // Array of mixers in case of many models
+    const mixers = []; // Array of mixers in case of many models
 
     // Model
     gltfLoader.load("model.glb", (gltf) => {
@@ -100,7 +100,7 @@ export function App() {
       const actions = [];
       for (let i = 0; i < gltf.animations.length; i++) {
         const clip = gltf.animations[i];
-        const n = clip.name.toLowerCase();
+        // const n = clip.name.toLowerCase();
         const action = mixer.clipAction(clip);
         action.setLoop(THREE.LoopRepeat);
         action.clampWhenFinished = true;
