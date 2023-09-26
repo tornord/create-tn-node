@@ -52,7 +52,7 @@ export function App() {
     hemiLight.position.set(0, 1, 0);
     scene.add(hemiLight);
 
-    const spotLight = new THREE.SpotLight(0xffffff, 0.6);
+    const spotLight = new THREE.SpotLight(0xffffff, 600);
     spotLight.position.set(0, 10, 0);
     spotLight.castShadow = true;
     spotLight.shadow.radius = 5;
@@ -121,7 +121,7 @@ export function App() {
     camera.position.y = 6;
     camera.position.z = -12;
     scene.add(camera);
-    gui.add(camera.position, "x", 2, 20, 0.01);
+    gui.add(camera.position, "x", -20, 20, 0.01);
 
     // Controls
     const controls = new OrbitControls(camera, canvas);
@@ -150,7 +150,6 @@ export function App() {
 
     // Animate
     const clock = new THREE.Clock();
-    let elapsedTimePrev = clock.getElapsedTime();
     const tick = () => {
       const elapsedTime = clock.getElapsedTime(); // eslint-disable-line
 
@@ -159,14 +158,13 @@ export function App() {
 
       // Update animation mixers
       for (const mixer of mixers) {
-        mixer.update(elapsedTime - elapsedTimePrev);
+        mixer.setTime(elapsedTime);
       }
 
       // Render
       renderer.render(scene, camera);
 
       // Call tick again on the next frame
-      elapsedTimePrev = elapsedTime;
       window.requestAnimationFrame(tick);
     };
 
