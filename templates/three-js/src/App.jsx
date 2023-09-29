@@ -93,7 +93,7 @@ export function App() {
               child.castShadow = true;
             }
           }
-          child.material = colorsMaterial;
+          // child.material = colorsMaterial;
         });
       }
 
@@ -133,6 +133,8 @@ export function App() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.setClearColor(0x000000, 0.0);
+    // renderer.toneMapping = THREE.LinearToneMapping;
+    // renderer.toneMappingExposure = 1;
 
     window.addEventListener("resize", () => {
       // Update sizes
