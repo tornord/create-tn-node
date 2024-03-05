@@ -9,9 +9,9 @@
       "request": "launch",
       "name": "run current file",
       "skipFiles": ["<node_internals>/**"],
-      "args": ["--experimental-specifier-resolution=node", "${file}"],
+      "args": ["--import=tsx/esm", "${file}"],
       "env": {},
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v18.12.1/bin/node",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.10.0/bin/node",
       "cwd": "${workspaceFolder}/temp",
       "console": "integratedTerminal"
     }

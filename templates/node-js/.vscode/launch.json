@@ -9,9 +9,9 @@
       "request": "launch",
       "name": "run current file",
       "skipFiles": ["<node_internals>/**"],
-      "args": ["--experimental-specifier-resolution=node", "${file}"],
+      "args": ["--import=tsx/esm", "${file}"],
       "env": {},
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v18.12.1/bin/node",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.10.0/bin/node",
       "console": "integratedTerminal"
     },
     {
@@ -19,8 +19,12 @@
       "request": "launch",
       "name": "test current file",
       "skipFiles": ["<node_internals>/**"],
-      "args": ["--experimental-specifier-resolution=node", "./node_modules/.bin/jest", "${file}"],
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v18.12.1/bin/node",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": ["${file}", "-b", "-t", "3600000"],
+      "runtimeArgs": ["--import=tsx/esm"],
+      "smartStep": true,
+      "env": { "DEBUG": "" },
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.10.0/bin/node",
       "console": "integratedTerminal"
     }
   ]

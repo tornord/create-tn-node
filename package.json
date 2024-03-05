@@ -23,5 +23,8 @@
   "homepage": "https://github.com/tornord/templates#readme",
   "dependencies": {
     "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.1"
   }
 }
