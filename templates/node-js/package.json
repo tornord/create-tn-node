@@ -2,22 +2,30 @@
   "name": "test-yy-mm-dd",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "start": "node --experimental-specifier-resolution=node .",
+    "build": "tsc && vite build --ssr ./src/index.ts",
+    "start": "node --import=tsx/esm .",
     "lint": "eslint .",
-    "test": "jest"
+    "test": "vitest --run"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^8.40.0",
-    "jest": "^29.5.0",
-    "tsx": "^4.7.1"
+    "@eslint/js": "^9.7.0",
+    "@types/eslint__js": "^8.42.3",
+    "@types/jest": "^29.5.12",
+    "eslint": "^9.7.0",
+    "jest": "^29.7.0",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^7.16.1",
+    "vite": "^5.3.3",
+    "vitest": "^2.0.3"
   },
   "dependencies": {
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.4.5"
   }
 }
