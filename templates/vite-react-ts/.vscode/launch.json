@@ -7,36 +7,25 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Test current file",
-      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
-      "args": ["${file}", "--run", "--test-timeout=120000", "--reporter=dot"],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v18.16.1/bin/node",
-      "smartStep": true,
-      "env": { "DEBUG": "" }
-    },
-    {
-      "type": "node",
-      "request": "launch",
       "name": "Run current file",
-      "program": "${workspaceFolder}/node_modules/ts-node/dist/bin-esm.js",
-      "args": ["--experimental-specifier-resolution=node", "${file}"],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v18.16.1/bin/node",
-      "smartStep": true,
-      "env": { "DEBUG": "" }
+      "skipFiles": ["<node_internals>/**"],
+      "args": ["--import=tsx/esm", "${file}"],
+      "env": {},
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.15.1/bin/node",
+      "console": "integratedTerminal"
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "TS current file",
-      "program": "${file}",
-      "preLaunchTask": "tsc: build - tsconfig.debug.json",
-      "outFiles": ["${workspaceFolder}/out/**/*.js"],
-      "console": "integratedTerminal",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v18.16.1/bin/node",
+      "name": "Test current file",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/node_modules/.bin/vitest",
+      "args": ["${file}", "--run", "--test-timeout=300000", "--reporter=dot"],
+      "runtimeArgs": ["--import=tsx/esm"],
+      "smartStep": true,
+      "env": { "DEBUG": "" },
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.15.1/bin/node",
+      "console": "integratedTerminal"
     }
   ]
 }

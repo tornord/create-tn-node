@@ -1,5 +1,7 @@
 #! /usr/bin/env node
+
 import { dirname, join, resolve } from "path";
+
 import { fileURLToPath } from "url";
 import fs from "fs";
 import prompts from "prompts";
@@ -45,6 +47,7 @@ function copyTemplate(templateName, projectName) {
   }
   copyFolder(".vscode", srcFolder, destFolder, false);
   fs.writeFileSync(join(destFolder, ".env"), "Secrets here\n", "utf-8");
+  fs.writeFileSync(join(destFolder, ".npmrc"), "legacy-peer-deps=true\n", "utf-8");
 
   const packageJson = JSON.parse(fs.readFileSync(join(destFolder, "package.json"), "utf-8"));
   packageJson.name = projectName;

@@ -7,7 +7,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "run current file",
+      "name": "Run current file",
       "skipFiles": ["<node_internals>/**"],
       "args": ["--import=tsx/esm", "${file}"],
       "env": {},
@@ -17,10 +17,10 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "test current file",
+      "name": "Test current file",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/node_modules/.bin/jest",
-      "args": ["${file}"],
+      "program": "${workspaceFolder}/node_modules/.bin/vitest",
+      "args": ["${file}", "--run", "--test-timeout=300000", "--reporter=dot"],
       "runtimeArgs": ["--import=tsx/esm"],
       "smartStep": true,
       "env": { "DEBUG": "" },
