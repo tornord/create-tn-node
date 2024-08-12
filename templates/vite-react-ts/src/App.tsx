@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
-
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 const StyledApp = styled.div(
-  () => `
+  () => css`
     width: 100%;
     height: 600px;
     
