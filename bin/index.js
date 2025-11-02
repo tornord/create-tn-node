@@ -45,6 +45,9 @@ function copyTemplate(templateName, projectName) {
       copyFolder("draco", join(srcFolder, "static"), join(destFolder, "static"), false);
     }
   }
+  if (fs.existsSync(join(srcFolder, ".github"))) {
+    copyFolder(".github", srcFolder, destFolder, false);
+  }
   copyFolder(".vscode", srcFolder, destFolder, false);
   fs.writeFileSync(join(destFolder, ".env"), "Secrets here\n", "utf-8");
   fs.writeFileSync(join(destFolder, ".npmrc"), "legacy-peer-deps=true\n", "utf-8");
