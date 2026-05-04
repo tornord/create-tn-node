@@ -23,11 +23,13 @@ npx vitest --run src/scaleLinear.test.ts
 
 **Backend**: Express server in `server/`, started with `tsx` (`node --import=tsx/esm`). No `__dirname` — use ES module `import.meta.url` patterns instead.
 
-**TypeScript**: Composite project — `tsconfig.json` references `tsconfig.app.json` (for `src/`) and `tsconfig.node.json` (for `vite.config.ts` and `server/`). Target is `esnext`.
+**TypeScript**: Composite project — `tsconfig.json` references `tsconfig.app.json` (for `src/` and `common/`) and `tsconfig.node.json` (for `vite.config.ts` and `server/`). Target is `ES2020`. Strict mode, `noUnusedLocals`, `noUnusedParameters`, and `noFallthroughCasesInSwitch` are all enforced.
 
-**Testing**: Vitest with `globals: true`, setup file at `setupVitest.ts`. Tests live next to source files (`*.test.ts` / `*.test.tsx`). Test env is set to `NODE_ENV=test`, `TZ=Europe/Stockholm`.
+**Testing**: Vitest with `globals: true`. Two setup files: `setupVitest.ts` sets `NODE_ENV=test` and `TZ=Europe/Stockholm`; `testSetup.ts` extends `expect` with React Testing Library matchers and runs `cleanup()` after each test. Tests live next to source files (`*.test.ts` / `*.test.tsx`).
 
-**ESLint**: Config is `eslint.config.mjs` (ESM flat config), exports an array. Skips `react/react-in-jsx-scope` and `@typescript-eslint/no-explicit-any`. Enforces double quotes, semicolons, `sort-imports`, `no-console`.
+**ESLint**: Config is `eslint.config.mjs` (ESM flat config), exports an array. Skips `react/react-in-jsx-scope` and `@typescript-eslint/no-explicit-any`. Enforces double quotes, semicolons, `sort-imports`, `no-console`, `eqeqeq`, and `no-shadow`.
+
+**Prettier**: `printWidth: 120`, double quotes, trailing comma `es5`.
 
 ## Key Conventions
 
@@ -39,3 +41,4 @@ npx vitest --run src/scaleLinear.test.ts
 - **Strings**: Double quotes (Prettier default).
 - **Missing `@types`**: Always install `@types/node` and `jsdom` as devDependencies.
 - **package.json**: `"type": "module"` is set — use ESM throughout.
+- **Node version**: 24 (see `.nvmrc`).
