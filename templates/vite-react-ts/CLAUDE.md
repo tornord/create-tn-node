@@ -1,61 +1,41 @@
-# Project Guidelines
+# CLAUDE.md
 
-You are a senior full stack developer in Node JS.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Tech Stack
+## Commands
 
-- NPM as package manager
-- TypeScript as programming language
-- React as UI library
-- Vite as build tool and development server
-- Vitest as testing framework
-- React testing library as React components testing library
-- React Router as client-side routing
-- Emotion React as styling solution
-- Prettier as code formatter
-- ESLint as code linter
-- Storybook for component library
-- Express as server framework, incl. `cors` and `helmet`, and supertest as testing library for server
+```bash
+npm run dev          # Vite dev server
+npm run build        # tsc + vite build → dist/
+npm test             # vitest --run (single pass, no watch)
+npm run lint         # eslint .
+npm run server       # Express server via tsx (node --import=tsx/esm server/index.ts)
+```
 
-## Design Details
+Run a single test file:
+```bash
+npx vitest --run src/scaleLinear.test.ts
+```
 
-- Set type to `module` in `package.json`. Do not use `__dirname`
-- Add global styles a GlobalStyles component, derived from `emotion`'s `Global` component, and add it before the `App` component in `src/main.tsx`, base project font should be defined in global styles
-- Vite and Vitest should use same config file `vite.config.ts`
-- Add `--run` to `vitest` in npm script `test`
-- Add styling by using Styled Components from `@emotion/styled`, do not use css prop in React components. Never use css files. For css in javascript files, use `css` template literal from `@emotion/react`
-- Add a VS Code launch configuration `Run current file` to `.vscode/launch.json`
-- Use `tsx`, version 4.16 or later (as `node --import=tsx/esm`) to start own server side typescript files
-- Set `target` to `esnext` in `tsconfig.json`
-- Add `README.md` file and add how to install and run the project
-- Add types for test `@types/jest`. And install `@types` for packages that is missing typescript types
-- When adding tests, put them in same folder as the file you are testing
-- Add a simple Home page as a start and add a test for it
-- Add typescript support for eslint, import version 9, skip `react/react-in-jsx-scope` and `@typescript-eslint/no-explicit-any`
-- Prefer double quotes for strings, as prettier default
-- When adding storybook stories, put them in same folder as the component
-- When creating react svg components, optimal viewBox format is `0 0 120 120`
-- When testing api server, use the lib `supertest`
-- When importing native node modules, always add prefix `node:`
-- Always import `@types/node` and `jsdom`
+## Architecture
 
-## Project Structure
+**Frontend**: React 19 + Vite 8. Entry point is `src/main.tsx`, which renders a `Global` emotion styles component before `<App />`. Global styles (font, resets) live inline in `main.tsx` using `@emotion/react`'s `Global`.
 
-- `src/` - Contains the main application code
-  - `components/` - Reusable UI components
-  - `pages/` - Route-specific pages
-  - `utils/` - Utility functions and helpers
-  - `App.tsx` - Root component
-  - `main.tsx` - Entry point for the application. Add extra check for root element
-- `server/` - Contains the server side code
-- `docs/` - Folder for documentation
-- `public/` - Static assets
-- `vite.config.ts` - Vite and Vitest configuration
-- `tsconfig.json` - TypeScript configuration
-- `tsconfig.node.json` - TypeScript configuration for `vite.config.ts` and `server/`
-- `package.json` - Project dependencies and scripts
-- `index.html` - HTML entry point, Add link to base project font
-- `.eslintrc.cjs` - ESLint configuration, this file exports an array of configuration objects
-- `.nvmrc` - Node version here
-- `.gitignore` - Git ignore
-- `.env` always use this file for secrets and environment variables
+**Backend**: Express server in `server/`, started with `tsx` (`node --import=tsx/esm`). No `__dirname` — use ES module `import.meta.url` patterns instead.
+
+**TypeScript**: Composite project — `tsconfig.json` references `tsconfig.app.json` (for `src/`) and `tsconfig.node.json` (for `vite.config.ts` and `server/`). Target is `esnext`.
+
+**Testing**: Vitest with `globals: true`, setup file at `setupVitest.ts`. Tests live next to source files (`*.test.ts` / `*.test.tsx`). Test env is set to `NODE_ENV=test`, `TZ=Europe/Stockholm`.
+
+**ESLint**: Config is `eslint.config.mjs` (ESM flat config), exports an array. Skips `react/react-in-jsx-scope` and `@typescript-eslint/no-explicit-any`. Enforces double quotes, semicolons, `sort-imports`, `no-console`.
+
+## Key Conventions
+
+- **Styling**: Always use `@emotion/styled` for component styles. Use `css` template literal from `@emotion/react` for CSS-in-JS outside components. Never use `.css` files. Never use the `css` prop on React components.
+- **SVG components**: Use `viewBox="0 0 120 120"` as the standard format.
+- **Node built-ins**: Always use the `node:` prefix (e.g. `node:path`, `node:fs`).
+- **Storybook stories**: Co-locate with the component file.
+- **Server tests**: Use `supertest`.
+- **Strings**: Double quotes (Prettier default).
+- **Missing `@types`**: Always install `@types/node` and `jsdom` as devDependencies.
+- **package.json**: `"type": "module"` is set — use ESM throughout.
