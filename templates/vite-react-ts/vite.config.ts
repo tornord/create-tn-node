@@ -26,7 +26,7 @@ export default defineConfig({
     sourcemap: true,
   },
   test: {
-    include: ["./src/**/*.test.[jt]s"],
+    include: ["src", "common", "server", "scripts"].map((d) => `./${d}/**/*.test.[jt]s`),
     exclude: [...configDefaults.exclude],
     globals: true,
     testTimeout: 3000,
