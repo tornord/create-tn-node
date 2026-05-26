@@ -9,9 +9,9 @@
       "request": "launch",
       "name": "Run current file",
       "skipFiles": ["<node_internals>/**"],
-      "args": ["--import=tsx/esm", "${file}"],
+      "args": ["${file}"],
       "env": {},
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.15.1/bin/node",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/tsx",
       "console": "integratedTerminal"
     },
     {
@@ -19,12 +19,11 @@
       "request": "launch",
       "name": "Test current file",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/node_modules/.bin/vitest",
       "args": ["${file}", "--run", "--test-timeout=300000", "--reporter=dot"],
-      "runtimeArgs": ["--import=tsx/esm"],
+      "runtimeArgs": [],
       "smartStep": true,
       "env": { "DEBUG": "" },
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.15.1/bin/node",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/vitest",
       "console": "integratedTerminal"
     }
   ]
