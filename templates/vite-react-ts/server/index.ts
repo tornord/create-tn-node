@@ -19,12 +19,20 @@ router.post("/search", (req: express.Request, res: express.Response) => {
   res.json({ ok: true });
 });
 
+router.use((_req: express.Request, res: express.Response) => {
+  res.status(404).json({ error: "Not found" });
+});
+
 // Add routes here
 
 app.get("/*path", (_req: express.Request, res: express.Response) => {
   res.sendFile(path.join(DIST_PATH, "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`); // eslint-disable-line no-console
-});
+export { app };
+
+if (import.meta.main) {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`); // eslint-disable-line no-console
+  });
+}
