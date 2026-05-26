@@ -1,26 +1,27 @@
-import path from "path";
+import path from "node:path";
 
 import cors from "cors";
 import express from "express";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = Number.parseInt(process.env.PORT ?? "3000", 10) || 3000;
 const DIST_PATH = path.resolve("./dist");
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static(DIST_PATH));
-const router = express.Router(); // eslint-disable-line new-cap
+// eslint-disable-next-line new-cap
+const router = express.Router();
 
 app.use("/api", router);
 
-router.post("/search", (req, res) => {
+router.post("/search", (req: express.Request, res: express.Response) => {
   res.json({ ok: true });
 });
 
 // Add routes here
 
-app.get("/*", (_req, res) => {
+app.get("/*path", (_req: express.Request, res: express.Response) => {
   res.sendFile(path.join(DIST_PATH, "index.html"));
 });
 
