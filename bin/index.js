@@ -39,6 +39,8 @@ function copyTemplate(templateName, projectName) {
   copyFolder(".", templatesFolder, destFolder, false);
   copyFolder(".", srcFolder, destFolder, false);
   copyFolder("src", srcFolder, destFolder, false);
+  copyFolder("common", srcFolder, destFolder, false);
+  copyFolder("server", srcFolder, destFolder, false);
   if (fs.existsSync(join(srcFolder, "static"))) {
     copyFolder("static", srcFolder, destFolder, false);
     if (fs.existsSync(join(srcFolder, "static", "draco"))) {
