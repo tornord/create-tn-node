@@ -1,6 +1,6 @@
 import eslint from "@eslint/js";
 import parserTs from "@typescript-eslint/parser";
-import stylisticTs from "@stylistic/eslint-plugin-ts";
+import stylisticTs from "@stylistic/eslint-plugin";
 import tseslint from "typescript-eslint";
 
 export default [
