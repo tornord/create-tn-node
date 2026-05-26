@@ -23,7 +23,7 @@ Follow these design details:
 - Add `--run` to `vitest` in npm script `test`
 - Add styling by using Styled Components from `@emotion/styled`, do not use css prop in React components. Never use css files. For css in javascript files, use `css` template literal from `@emotion/react`
 - Add a VS Code launch configuration `Run current file` to `.vscode/launch.json`
-- Use `tsx`, version 4.16 or later (as `node --import=tsx/esm`) to start own server side typescript files
+- Use `tsx`, version 4.16 or later (as `npx tsx <file>`) to start own server side typescript files
 - Set `target` to `esnext` in `tsconfig.json`
 - Add `README.md` file and add how to install and run the project
 - Add types for test `@types/jest`. And install `@types` for packages that is missing typescript types
@@ -48,6 +48,7 @@ Follow and maintain this project structure:
 - `server/` - Contains the server side code
 - `docs/` - Folder for documentation
 - `public/` - Static assets
+- `scripts/` - Server side command line modules here
 - `vite.config.ts` - Vite and Vitest configuration
 - `tsconfig.json` - TypeScript configuration
 - `tsconfig.node.json` - TypeScript configuration for `vite.config.ts` and `server/`

@@ -21,7 +21,7 @@ npx vitest --run src/scaleLinear.test.ts
 
 **Frontend**: React 19 + Vite 8. Entry point is `src/main.tsx`, which renders a `Global` emotion styles component before `<App />`. Global styles (font, resets) live inline in `main.tsx` using `@emotion/react`'s `Global`.
 
-**Backend**: Express server in `server/`, started with `tsx` (`node --import=tsx/esm`). No `__dirname` — use ES module `import.meta.url` patterns instead.
+**Backend**: Express server in `server/`, started with `tsx` (`npx tsx`). No `__dirname` — use ES module `import.meta.url` patterns instead.
 
 **TypeScript**: Composite project — `tsconfig.json` references `tsconfig.app.json` (for `src/` and `common/`) and `tsconfig.node.json` (for `vite.config.ts` and `server/`). Target is `ES2020`. Strict mode, `noUnusedLocals`, `noUnusedParameters`, and `noFallthroughCasesInSwitch` are all enforced.
 
@@ -33,7 +33,7 @@ npx vitest --run src/scaleLinear.test.ts
 
 ## Key Conventions
 
-- **Styling**: Always use `@emotion/styled` for component styles. Use `css` template literal from `@emotion/react` for CSS-in-JS outside components. Never use `.css` files. Never use the `css` prop on React components.
+- **Styling**: Always use `@emotion/styled` for component styles. Use `css` template literal from `@emotion/react` for CSS-in-JS outside components. Never use `.css` files and avoid using the `css` prop on React components.
 - **SVG components**: Use `viewBox="0 0 120 120"` as the standard format.
 - **Node built-ins**: Always use the `node:` prefix (e.g. `node:path`, `node:fs`).
 - **Storybook stories**: Co-locate with the component file.
